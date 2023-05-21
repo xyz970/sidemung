@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +32,12 @@ class AuthController extends Controller
             'token' => $token,
         );
 
-        return $this->successResponseData('Login',$data);
-        
+        return $this->successResponseData('Login',$data);   
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        User::create($request->validated());
+        return $this->successResponse('Register Berhasil');
     }
 }

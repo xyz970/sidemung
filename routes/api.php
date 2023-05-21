@@ -27,3 +27,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
  * - password
  */
 Route::post('login',[AuthController::class, 'login']);
+
+
+/**
+ * Login
+ * 
+ * - phone
+ * - password
+ */
+Route::post('register',[AuthController::class, 'register']);
