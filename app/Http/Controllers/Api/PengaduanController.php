@@ -14,7 +14,7 @@ class PengaduanController extends Controller
 
     public function insert(Request $request)
     {
-        $input = $request->only(['user_nik','name','user_id','description','status']);
+        $input = $request->only(['user_nik','judul','user_id','description','status','alamat']);
         $file = $request->file('image');
 
         // isi dengan nama folder tempat kemana file diupload
