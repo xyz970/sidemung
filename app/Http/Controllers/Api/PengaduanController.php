@@ -19,7 +19,7 @@ class PengaduanController extends Controller
 
         // isi dengan nama folder tempat kemana file diupload
         $tujuan_upload = 'data_file';
-        $namafile = 'GambarPengajuan'.$input['user_nik']."-".$input['name'].".".$file->getClientOriginalExtension();
+        $namafile = 'GambarPengajuan'.$input['user_nik']."-".$input['judul'].".".$file->getClientOriginalExtension();
         // upload file
         $file->move($tujuan_upload, $namafile);
         $input += array('image'=>$namafile);
