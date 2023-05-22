@@ -40,4 +40,12 @@ class AuthController extends Controller
         User::create($request->validated());
         return $this->successResponse('Register Berhasil');
     }
+
+    public function logout()
+    {
+        JWTAuth::invalidate();
+        Auth::logout();
+
+        return $this->successResponse('Berhasil Logout');
+    }
 }

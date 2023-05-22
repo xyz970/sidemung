@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PengaduanController;
+use App\Http\Middleware\ApiCheckMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 /**
  * Login
+ * @POST
  * 
  * - phone
  * - password
@@ -30,9 +33,22 @@ Route::post('login',[AuthController::class, 'login']);
 
 
 /**
- * Login
+ * Register
+ *  @POST
  * 
+ * - nik
+ * - name
+ * - email
  * - phone
  * - password
  */
 Route::post('register',[AuthController::class, 'register']);
+
+/**
+ * Logout
+ *  @GET
+ */
+Route::get('logout',[AuthController::class, 'logout']);
+
+
+Route::post('pengaduan/insert',[PengaduanController::class, 'insert']);
