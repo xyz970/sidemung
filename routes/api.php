@@ -48,7 +48,16 @@ Route::post('register',[AuthController::class, 'register']);
  * Logout
  *  @GET
  */
-Route::get('logout',[AuthController::class, 'logout']);
+Route::get('logout',[AuthController::class, 'logout'])->middleware(ApiCheckMiddleware::class);
+
+Route::get('check',[AuthController::class, 'check'])->middleware(ApiCheckMiddleware::class);
+
+
+Route::get('pengaduan',[PengaduanController::class, 'index'])->middleware(ApiCheckMiddleware::class);;
 
 
 Route::post('pengaduan/insert',[PengaduanController::class, 'insert']);
+
+
+
+Route::delete('pengaduan/delete/{id}',[PengaduanController::class, 'delete']);

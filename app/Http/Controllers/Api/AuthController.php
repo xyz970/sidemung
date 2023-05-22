@@ -48,4 +48,9 @@ class AuthController extends Controller
 
         return $this->successResponse('Berhasil Logout');
     }
+
+    public function check()
+    {
+        return $this->successResponseData('Data',Auth::user());
+    }
 }
