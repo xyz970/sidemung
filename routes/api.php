@@ -53,10 +53,12 @@ Route::get('logout',[AuthController::class, 'logout'])->middleware(ApiCheckMiddl
 Route::get('check',[AuthController::class, 'check'])->middleware(ApiCheckMiddleware::class);
 
 
-Route::get('pengaduan',[PengaduanController::class, 'index'])->middleware(ApiCheckMiddleware::class);;
+Route::get('pengaduan/{status}',[PengaduanController::class, 'index'])->middleware(ApiCheckMiddleware::class);
 
 
-Route::post('pengaduan/insert',[PengaduanController::class, 'insert']);
+Route::post('pengaduan/insert',[PengaduanController::class, 'insert'])->middleware(ApiCheckMiddleware::class);
+
+Route::post('pengaduan/upload_image',[PengaduanController::class, 'upload_image'])->middleware(ApiCheckMiddleware::class);
 
 
 

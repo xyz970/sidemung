@@ -14,32 +14,61 @@ class PengaduanController extends Controller
 
     public function insert(Request $request)
     {
-        $input = $request->only(['user_nik','judul','user_id','description','status','alamat']);
-        $file = $request->file('image');
-
-        // isi dengan nama folder tempat kemana file diupload
-        $tujuan_upload = 'data_file';
-        $namafile = 'GambarPengajuan'.$input['user_nik']."-".$input['judul'].".".$file->getClientOriginalExtension();
-        // upload file
-        $file->move($tujuan_upload, $namafile);
-        $input += array('image'=>$namafile);
+        $auth = Auth::user();
+        $input = $request->only(['user_nik', 'judul', 'description', 'status', 'alamat']);
+        $namaFile = 'GambarPengajuan' . $auth->nik . '-' . $input['judul'] . '.jpg';
+        rename(public_path() . '/data_file/GambarPengajuan' . $auth->nik . '.jpg', public_path() . '/data_file/' . $namaFile);
+        $input += array('image' => $namaFile);
         Pengaduan::create($input);
 
-        return $this->successResponse('Pengaduan berhasil ditambahkan');
-        
+        return $this->successResponse('Pengaduan berhasil dimasukkan');
     }
 
-    public function index()
+    public function upload_image(Request $request)
+    {
+        if ($request->has('image')) {
+            $auth = Auth::user();
+            $file = $request->file('image');
+
+            // isi dengan nama folder tempat kemana file diupload
+            $tujuan_upload = 'data_file';
+            $namafile = 'GambarPengajuan' . "$auth->nik" . "." . $file->getClientOriginalExtension();
+            // upload file
+            $file->move($tujuan_upload, $namafile);
+            return $this->successResponse($namafile);
+        }
+    }
+
+    public function index($status)
     {
         $auth = Auth::user();
-        $pengaduan = Pengaduan::where('user_nik','=',$auth->nik)->get();
-        return $this->responseCollection('Data Pengaduan',$pengaduan);
+        // $pengaduan = Pengaduan::where('user_nik', '=', $auth->nik);
+        switch ($status) {
+            case '1':
+                $pengaduan = Pengaduan::where('user_nik', '=', $auth->nik)->where('status', '=', 'Belum Diproses')->get();
+                return response()->json($pengaduan);
+
+                break;
+
+            case '2':
+                $pengaduan = Pengaduan::where('user_nik', '=', $auth->nik)->where('status', '=', 'Diproses')->get();
+                return response()->json($pengaduan);
+
+                break;
+
+            default:
+                $pengaduan = Pengaduan::where('user_nik', '=', $auth->nik)->where('status', '=', 'Selesai')->get();
+                return response()->json($pengaduan);
+
+                break;
+        }
+        // return response()->json($pengaduan);
         // return $this->successResponseData('Data',$pengaduan);
     }
 
     public function delete($id)
     {
-        Pengaduan::where('id','=',$id)->delete();
+        Pengaduan::where('id', '=', $id)->delete();
         return $this->successResponse('Data berhasil dihapus');
     }
 }
