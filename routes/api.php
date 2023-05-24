@@ -52,6 +52,8 @@ Route::get('logout',[AuthController::class, 'logout'])->middleware(ApiCheckMiddl
 
 Route::get('check',[AuthController::class, 'check'])->middleware(ApiCheckMiddleware::class);
 
+Route::post('user/update_profile',[AuthController::class, 'update_profile'])->middleware(ApiCheckMiddleware::class);
+
 
 Route::get('pengaduan/{status}',[PengaduanController::class, 'index'])->middleware(ApiCheckMiddleware::class);
 

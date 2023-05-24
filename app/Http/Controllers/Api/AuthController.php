@@ -53,4 +53,13 @@ class AuthController extends Controller
     {
         return $this->successResponseData('Data',Auth::user());
     }
+
+    public function update_profile(Request $request)
+    {
+        $input = $request->only(['password','phone']);
+        $auth = Auth::user();
+        $user = User::find($auth->id)->update($input);
+        return $this->successResponse("Profile berhasil diupdate");
+
+    }
 }
